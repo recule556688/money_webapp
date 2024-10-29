@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   frontend:
-    image: yourusername/money-app-frontend:latest
+    image: getkarma/money_app:frontend
     container_name: money-app-frontend
     restart: unless-stopped
     ports:
@@ -12,14 +12,13 @@ services:
       - money-app-network
 
   backend:
-    image: yourusername/money-app-backend:latest
+    image: getkarma/money_app:backend
     container_name: money-app-backend
     restart: unless-stopped
     ports:
       - "4000:4000"
     environment:
       - DATABASE_URL=postgresql://user:password@db:5432/moneyapp
-      - NODE_ENV=production
     networks:
       - money-app-network
     depends_on:
@@ -30,9 +29,9 @@ services:
     container_name: money-app-db
     restart: unless-stopped
     environment:
-      - POSTGRES_USER=${DB_USER}
-      - POSTGRES_PASSWORD=${DB_PASSWORD}
-      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=moneyapp
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
@@ -44,4 +43,4 @@ networks:
 
 volumes:
   postgres_data:
-    driver: local 
+    driver: local
